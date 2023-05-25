@@ -53,14 +53,6 @@ jobs:
 
           apt-get build-dep -y linux || apt install -f
 
-      - name: Install Python dependencies
-        run: |
-          pip3 install --upgrade pip
-          pip3 install \
-              meson \
-              ninja \
-              pyelftools \
-              pyyaml
       - name: Debug 
         run: |
           pwd
