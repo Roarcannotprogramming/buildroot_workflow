@@ -49,7 +49,8 @@ jobs:
               wget \
               xz-utils \
               tree \
-              procps
+              procps \
+              zstd
 
           apt-get build-dep -y linux || apt install -f
 
