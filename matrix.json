@@ -11,7 +11,7 @@
             "buildroot-config": "configs/buildroot-config",
             "linux-version": "6.2.6",
             "linux-config": "configs/linux-6.2.6-config-forexp",
-            "artifact_name": "forexp-2023.05-rc1"
+            "artifact_name": "forexp-master"
         }
     ]
 }
