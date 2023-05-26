@@ -60,11 +60,10 @@ jobs:
           if [ -n "${{ matrix.buildroot-url }}" ]; then
               curl -L ${{ matrix.buildroot-url }} -o _buildroot.tar.gz
               tar xf _buildroot.tar.gz
+              mv buildroot-* buildroot
           else
-              curl -L https://buildroot.org/downloads/buildroot-snapshot.tar.bz2 -o _buildroot.tar.bz2
-              tar xf _buildroot.tar.bz2
+              git clone https://git.busybox.net/buildroot
           fi
-          mv buildroot-* buildroot
 
 
 
