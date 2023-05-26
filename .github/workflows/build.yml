@@ -53,7 +53,29 @@ jobs:
 
           apt-get build-dep -y linux || apt install -f
 
+
+
+      - name: get buildroot
+        run: |
+          if [ -n "${{ matrix.buildroot-url }}" ]; then
+              curl -L ${{ matrix.buildroot-url }} -o _buildroot.tar.gz
+              tar xf _buildroot.tar.gz
+          else
+              curl -L https://buildroot.org/downloads/buildroot-snapshot.tar.bz2 -o _buildroot.tar.bz2
+              tar xf _buildroot.tar.bz2
+          fi
+          mv buildroot-* buildroot
+
+
+
+      - name: configure
+        run: |
+          cp ${{ matrix.buildroot-config }} buildroot/.config
+          cp ${{ matrix.linux-config }} $(cat buildroot/.config | grep BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE | sed "s/=/ /g" | sed "s/\"//g" | awk '{print $2}')
+          
+
       - name: Debug 
         run: |
           pwd
           tree .
+
