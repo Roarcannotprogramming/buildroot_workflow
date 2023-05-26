@@ -55,7 +55,7 @@ jobs:
 
 
 
-      - name: get buildroot
+      - name: Get Buildroot
         run: |
           if [ -n "${{ matrix.buildroot-url }}" ]; then
               curl -L ${{ matrix.buildroot-url }} -o _buildroot.tar.gz
@@ -68,14 +68,27 @@ jobs:
 
 
 
-      - name: configure
+      - name: Configure
         run: |
           cp ${{ matrix.buildroot-config }} buildroot/.config
-          cp ${{ matrix.linux-config }} $(cat buildroot/.config | grep BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE | sed "s/=/ /g" | sed "s/\"//g" | awk '{print $2}')
-          
+          cp ${{ matrix.linux-config }} buildroot/$(cat buildroot/.config | grep BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE | sed "s/=/ /g" | sed "s/\"//g" | awk '{print $2}')
+
+      - name: Build Image
+        run: |
+          cd buildroot
+          make -j$(nproc)
 
       - name: Debug 
         run: |
           pwd
           tree .
+          df -h
+          du -h --max-depth=1
+
+      - name: Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.name }}
+          path: buildroot
+
 
