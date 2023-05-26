@@ -84,10 +84,15 @@ jobs:
           df -h
           du -h --max-depth=1
 
+      - name: Prepare Unzipped Files
+        run: |
+          cd buildroot
+          tar -I zstd -cvf ${{ matrix.artifact_name }}.tar.zst output --remove-files
+
       - name: Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.artifact_name }}
-          path: buildroot/output
+          path: buildroot/${{ matrix.artifact_name }}.tar.zst
 
 
